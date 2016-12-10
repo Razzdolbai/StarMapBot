@@ -2,7 +2,7 @@ __author__ = '12345'
 import telebot
 import config
 import db
-import requests
+
 
 #соединение с ботом
 bot = telebot.TeleBot(config.token)
@@ -24,10 +24,32 @@ def send_welcome(message):
     print(result[0])
     bot.reply_to(message, result)
 
+@bot.message_handler(commands=['about'])
+def send_welcome(message):
+    query = "SELECT answer FROM questions WHERE id=3"
+    result = db.query(query)
+    result[0]
+    print(result[0])
+    bot.reply_to(message, result)
+
+from stars.request import generate_data
+#Делаем клавиатуру
+@bot.message_handler(commands=['go'])
+def generate_markup(message):
+     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+     markup.row('Взять текущее','Самостоятельно')
+     bot.send_message(message.from_user.id, 'Взять текущее время или введёте сами?', reply_markup=markup)
+
+# # Генератор звёздного неба
+# @bot.message_handler(commands=['stars'])
+# def send_welcome(message):
+#     bot.reply_to(message, generate_data(message.text))
+
 #Отвечает на все сообщения по умолчанию
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
-    bot.reply_to(message, message.text)
+    bot.reply_to(message, generate_data(message.text))
+    #bot.reply_to(message, message.text)
 
 #Запуск бота
 bot.polling()
