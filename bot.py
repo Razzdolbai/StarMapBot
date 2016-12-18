@@ -4,6 +4,7 @@ import config
 import db
 
 
+
 #соединение с ботом
 bot = telebot.TeleBot(config.token)
 
@@ -32,19 +33,19 @@ def send_welcome(message):
     print(result[0])
     bot.reply_to(message, result)
 
-from stars.request import generate_data
+from stars.request import generate_data, generate_loc
 #Делаем клавиатуру
 @bot.message_handler(commands = ['go'])
 def generate_markup(message):
-     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-     markup.row('Взять текущее','Самостоятельно')
-     bot.send_message(message.from_user.id, 'Взять текущее время или введёте сами?', reply_markup=markup)
+     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+     markup.row('Взять текущее', 'Самостоятельно')
+     bot.send_message(message.from_user.id, 'Взять текущее время (только для Санкт-Петербурга) или введёте сами?', reply_markup=markup)
 
-from stars.request import generate_coord
+
 @bot.message_handler(commands = ['next'])
 def generate_marku2(message):
-     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-     markup.row('Текущие координаты','Самостоятельный ввод')
+     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+     markup.row('Текущие координаты'(request_location = True), 'Самостоятельный ввод')
      bot.send_message(message.from_user.id, 'Взять текущие координаты или введёте сами?', reply_markup=markup)
 
 # # Генератор звёздного неба

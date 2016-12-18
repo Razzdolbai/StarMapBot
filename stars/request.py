@@ -54,7 +54,7 @@ def generate_data(message):
     return "Данные введены нажмите /next для продолжения ввода" + link
 
 #Функция ввода координат
-def generate_coord(message):
+def generate_loc(message):
     questions = ["Долгота градусы:('-' для вост.): ", "Долгота минуты: ", "Широта градусы:('-' для южн.): ", "Широта минуты: "]
     if message == 'Самостоятельный ввод':
         q = questions[0]
@@ -66,3 +66,4 @@ def generate_coord(message):
         pass
     else:
         return "Ничего не понял, попробуйте ещё раз, введите команду /next"
+    return "Данные введены нажмите"
