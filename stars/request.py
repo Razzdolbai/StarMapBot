@@ -28,6 +28,7 @@ def generate_data(message):
         return q
         #a = answers[0]
         answers.append(message)
+        return answers
         # hour = message"Введите час: "))
         minute = int(input("Введите минуту: "))
         day = int(input("Введите день: "))
@@ -42,9 +43,12 @@ def generate_data(message):
         year = cur_date.year  #текущий год
     else:
         return "Ничего не понял, попробуйте ещё раз, введите команду /go"
-    hour -= 3  #Конвертируем время в UT
+    if hour - 3 < 0:
+        hour += 24 #Чтобы не было отрицательного часа
+    hour -= 3 #Конвертируем часы в UT
     minute /= 0.6  #Конвертируем минуты
     time = "ut=" + str(hour) + '.' + str(int(minute))
     date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
     link = time + date
     print(link)
+    return "Данные введены " + link
