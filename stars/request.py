@@ -8,6 +8,7 @@ questions = ["Введите час: ", "Введите минуту: ", "Вве
 
 #Делаем клавиатуру
 #@bot.message_handler(commands=['go'])
+#Функция ввода даты и времени
 def generate_data(message):
     # markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     # markup.row('Взять текущее', 'Самостоятельно')
@@ -21,7 +22,6 @@ def generate_data(message):
     # # #     return q
     # else:
     # # Этот кусок кода выше скорее бесполезен
-
     if message == 'Самостоятельно':
         q = questions[0]
         questions.remove(q)
@@ -51,4 +51,18 @@ def generate_data(message):
     date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
     link = time + date
     print(link)
-    return "Данные введены " + link
+    return "Данные введены нажмите /next для продолжения ввода" + link
+
+#Функция ввода координат
+def generate_coord(message):
+    questions = ["Долгота градусы:('-' для вост.): ", "Долгота минуты: ", "Широта градусы:('-' для южн.): ", "Широта минуты: "]
+    if message == 'Самостоятельный ввод':
+        q = questions[0]
+        questions.remove(q)
+        return q
+        answers.append(message)
+        return answers
+    elif message == 'Текущие координаты':
+        pass
+    else:
+        return "Ничего не понял, попробуйте ещё раз, введите команду /next"
