@@ -38,8 +38,15 @@ from stars.request import generate_data
 @bot.message_handler(commands = ['go'])
 def generate_markup(message):
      markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-     markup.row('Всё вручную', 'Всё автоматически')
-     markup.row('Время вручную, координаты автоматически')
+     #Временно
+     hand = telebot.types.KeyboardButton(text="Всё вручную")
+
+     auto = telebot.types.KeyboardButton(text="Всё автоматически", request_location=True)# Отдельная кнопка с возможностью получения координат
+     halfauto = telebot.types.KeyboardButton(text="Время вручную, координаты автоматически", request_location=True)
+     markup.row(hand, auto)
+     markup.row(halfauto)
+     #markup.row('Всё вручную', 'Всё автоматически')
+     # #markup.row('Время вручную, координаты автоматически')
      bot.send_message(message.from_user.id, 'Взять текущее время (только для Санкт-Петербурга) и координаты (только для '
                                             'устройств с навигацией) или введёте сами?', reply_markup=markup)
      ''', request_location = True'''

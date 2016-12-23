@@ -1,6 +1,8 @@
 __author__ = '12345'
 import datetime
-# import telebot
+import telebot
+import config
+bot = telebot.TeleBot(config.token)
 # from bot import bot
 
 answers = []
@@ -11,18 +13,6 @@ answers = []
 #@bot.message_handler(commands=['go'])
 #Функция ввода даты и времени
 def generate_data(message):
-    # markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    # markup.row('Взять текущее', 'Самостоятельно')
-    # bot.send_message(message.from_user.id, 'Взять текущее время или введёте сами?', reply_markup=markup)
-    #def generate_data(message):
-    # if message == "/stars":
-    #     return "Взять текущее время (0) или введёте сами (1)?"
-    # # # elif (message == 0 or message == 1):
-    # # #     q = questions[0]
-    # # #     questions.remove(q)
-    # # #     return q
-    # else:
-    # # Этот кусок кода выше скорее бесполезен
     if message == "Всё вручную":
         questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: ",
               "Долгота градусы ('-' для вост.): ", "Широта градусы ('-' для южн.): "]
@@ -45,6 +35,10 @@ def generate_data(message):
         day = cur_date.day  # текущий день
         month = cur_date.month  #текущий месяц
         year = cur_date.year  #текущий год
+        # должен находить координаты но не находит
+        loc = ''
+        bot.send_chat_action(message.from_user.id, 'find_location')
+        bot.send_message(message.from_user.id, loc)
 
     elif message == 'Время вручную, координаты автоматически':
         questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: "]
@@ -64,7 +58,7 @@ def generate_data(message):
     date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
     link = time + date
     print(link)
-    return "Данные введены нажмите /next для продолжения ввода " + link
+    return "Данные введены нажмите /next для продолжения ввода " + link + loc
 
 #Функция ввода координат (реализовано по другому)
 # def generate_loc(message):
