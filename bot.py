@@ -2,7 +2,7 @@ __author__ = '12345'
 import telebot
 import config
 import db
-
+import stars.request as sr
 
 
 #соединение с ботом
@@ -41,7 +41,7 @@ def generate_markup(message):
      #Временно
      hand = telebot.types.KeyboardButton(text='Всё вручную')
 
-     auto = telebot.types.KeyboardButton(text="Всё автоматически"''', request_location=True''')# Отдельная кнопка с возможностью получения координат
+     auto = telebot.types.KeyboardButton(text="Всё автоматически")# Отдельная кнопка с возможностью получения координат''', request_location=True'''
      halfauto = telebot.types.KeyboardButton(text="Время вручную, координаты автоматически", request_location=True)
      markup.row(hand, auto)
      markup.row(halfauto)
@@ -50,23 +50,13 @@ def generate_markup(message):
      bot.send_message(message.from_user.id, 'Взять текущее время (только для Санкт-Петербурга) и координаты (только для '
                                             'устройств с навигацией) или введёте сами?', reply_markup=markup)
 
-
-# @bot.message_handler(commands = ['next'])
-# def generate_marku2(message):
-#      markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-#      markup.row('Текущие координаты'(request_location = True), 'Самостоятельный ввод')
-#      bot.send_message(message.from_user.id, 'Взять текущие координаты или введёте сами?', reply_markup=markup)
-
-# # Генератор звёздного неба
-# @bot.message_handler(commands=['stars'])
-# def send_welcome(message):
-#     bot.reply_to(message, generate_data(message.text))
-
 #Отвечает на все сообщения по умолчанию
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
     bot.reply_to(message, generate_data(message.text))
-    #bot.reply_to(message, message.text)
+    bot.reply_to(message, sr.generate_data_auto(message.text))
+    bot.reply_to(message, sr.generate_data_half(message.text))
+    # #bot.reply_to(message, message.text)
 
 #Запуск бота
 bot.polling()

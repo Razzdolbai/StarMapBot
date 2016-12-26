@@ -14,7 +14,6 @@ questions = ["Введите час: ", "Введите минуту: ", "Вве
 #@bot.message_handler(commands=['go'])
 #Функция ввода даты и времени
 def generate_data(message):
-    #if message == "Всё вручную":
     if message == "Всё вручную":
         # questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: ",
         #       "Долгота градусы ('-' для вост.): ", "Широта градусы ('-' для южн.): "]
@@ -25,7 +24,7 @@ def generate_data(message):
         #a = answers[0]
         answers.append(message)
         print(answers)
-        return 'Done'
+        return 'Done '
     else:
         answers.append(message)
         q = questions[0]
@@ -36,7 +35,7 @@ def generate_data(message):
         # day = int(input("Введите день: "))
         # month = int(input("Введите месяц: "))
         # year = int(input("Введите год: "))
-
+#def generate_data_auto(message):
     if message == 'Всё автоматически':
         cur_date = datetime.datetime.now()  #Берём текущее время (Питер, прувет!)
         hour = cur_date.hour  #Выделяем текущий час
@@ -54,14 +53,14 @@ def generate_data(message):
         date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
         link = time + date
         print(link)
-
+        return link
         # bot.send_chat_action(message.from_user.id, 'find_location')
         # bot.send_message(message.from_user.id, loc)
-
+#def generate_data_half(message):
     if message == 'Время вручную, координаты автоматически':
-        #questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: "]
-        q = questions[0]
-        questions.remove(q)
+        question = ["Введите часик: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: "]
+        q = question[0]
+        question.remove(q)
         return q
         answers.append(message)
         return answers
@@ -77,18 +76,3 @@ def generate_data(message):
     # print(link)
     print(answers)
     return "Данные введены нажмите /next для продолжения ввода "
-
-    #Функция ввода координат (реализовано по другому)
-    # def generate_loc(message):
-    #     questions = ["Долгота градусы:('-' для вост.): ", "Долгота минуты: ", "Широта градусы:('-' для южн.): ", "Широта минуты: "]
-    #     if message == 'Самостоятельный ввод':
-    #         q = questions[0]
-    #         questions.remove(q)
-    #         return q
-    #         answers.append(message)
-    #         return answers
-    #     elif message == 'Текущие координаты':
-    #         pass
-    #     else:
-    #         return "Ничего не понял, попробуйте ещё раз, введите команду /next"
-    #     return "Данные введены нажмите"
