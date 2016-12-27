@@ -54,9 +54,7 @@ def generate_markup(message):
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
     bot.reply_to(message, generate_data(message.text))
-    bot.reply_to(message, sr.generate_data_auto(message.text))
-    bot.reply_to(message, sr.generate_data_half(message.text))
-    # #bot.reply_to(message, message.text)
+    #bot.reply_to(message, message.text)
 
 #Запуск бота
 bot.polling()
