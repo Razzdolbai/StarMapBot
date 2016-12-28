@@ -5,14 +5,13 @@ import config
 import urllib.request
 
 bot = telebot.TeleBot(config.token)
-# from bot import bot
-#, "Введите минуту: "
+
 link = ''
 l2 = ['http://www.astronet.ru/cgi-bin/skyc.cgi?ut=', '&day=', '&month=', '&year=', '&longitude=', '&latitude=', '&height=90&m=5.0&colstars=1']
 
 answers = []
-questions = ["Введите час: ", "Введите день: ", "Введите месяц: ", "Введите год: ",
-             "Долгота градусы:('-' для вост.): ", "Широта градусы:('-' для южн.): "]
+questions = ["Введите час: ", "Введите день: ", "Введите месяц: ", "Введите год (полностью): ",
+             "Долгота градусы:('-' для вост.): ", "Широта градусы:('-' для южн.): "]  #, "Введите минуту: "
 
 #Функция ввода даты и времени
 def generate_data(message):
@@ -54,7 +53,7 @@ def generate_data(message):
         print (link)
         urllib.request.urlretrieve(link, '1.jpg')
         img = open('1.jpg', 'rb')
-        bot.send_chat_action(message.from_user.id, 'upload_photo')
+        bot.send_chat_action(message.from_user.id, 'upload_photo')  #По задумке должен загрузить фотку, но падает
         bot.send_photo(message.from_user.id, img)
         img.close()
         return 'Done '
