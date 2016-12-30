@@ -10,7 +10,7 @@ link = ''
 l2 = ['http://www.astronet.ru/cgi-bin/skyc.cgi?ut=', '&day=', '&month=', '&year=', '&longitude=', '&latitude=', '&height=90&m=5.0&colstars=1']
 
 answers = []
-questions = ["Введите час: ", "Введите день: ", "Введите месяц: ", "Введите год (полностью): ",
+questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год (полностью): ",
              "Долгота градусы:('-' для вост.): ", "Широта градусы:('-' для южн.): "]  #, "Введите минуту: "
 
 #Функция ввода даты и времени
@@ -48,6 +48,20 @@ def generate_data(message):
         answers.append(message)
         print(answers)
         answers.append('')  # Добавляет строчку в список для правильной генерации
+        hrs = int(answers[0])
+        hrs -= 3  #Конвертируем часы в UT
+        if hrs < 0:
+            hrs += 24  #Чтобы не было отрицательного часа
+        mins = int(answers[1])
+        mins /= 0.6
+        #удаляем первые два элемента списка
+        i = 0
+        while i < 2:
+            del answers [0]
+            i += 1
+        #вставляем вперёд списка новое значение
+        ut = str(hrs) + '.' + str(int(mins))
+        answers.insert(0, ut)
         l = [x + y for x,y in zip(l2,answers)]  #Объединяет списки
         link = ''.join(l)  #Преобразовывает список в строку
         print (link)
