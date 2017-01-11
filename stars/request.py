@@ -28,7 +28,7 @@ def generate_data(message):
         hour -= 3  #Конвертируем часы в UT
         if hour < 0:
             hour += 24  #Чтобы не было отрицательного часа
-        minute /= 0.6  #Конвертируем минуты
+        minute /= 0.6  #Конвертируем минуты, чуть-чуть не так работает, если минуты меньше 10
         time = "ut=" + str(hour) + '.' + str(int(minute))
         date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
         link = time + date
@@ -53,7 +53,7 @@ def generate_data(message):
         if hrs < 0:
             hrs += 24  #Чтобы не было отрицательного часа
         mins = int(answers[1])
-        mins /= 0.6
+        mins /= 0.6 #Чуть-чуть не так работает, если минуты меньше 10
         #удаляем первые два элемента списка
         i = 0
         while i < 2:
@@ -65,12 +65,14 @@ def generate_data(message):
         l = [x + y for x,y in zip(l2,answers)]  #Объединяет списки
         link = ''.join(l)  #Преобразовывает список в строку
         print (link)
-        urllib.request.urlretrieve(link, '1.jpg')
-        img = open('1.jpg', 'rb')
-        bot.send_chat_action(message.from_user.id, 'upload_photo')  #По задумке должен загрузить фотку, но падает
-        bot.send_photo(message.from_user.id, img)
-        img.close()
-        return 'Done '
+        #Вот тут должна быть загрузка фото в диалог, но бот тут падает
+        # urllib.request.urlretrieve(link, '1.jpg')
+        # img = open('1.jpg', 'rb')
+        # bot.send_chat_action(message.from_user.id, 'upload_photo')  #По задумке должен загрузить фотку, но падает
+        # bot.send_photo(message.from_user.id, img)
+        # img.close()
+        return 'Готово, перейдите по ссылке' \
+               ' ' + link
     else:
         answers.append(message)
         q = questions[0]
@@ -84,7 +86,7 @@ def generate_data(message):
         # month = int(input("Введите месяц: "))
         # year = int(input("Введите год: "))
 
-
+        #Думаю, пока можно не реализовывать полуавтоматический ввод
     if message == 'Время вручную, координаты автоматически':
         question = ["Введите часик: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: "]
         q = question[0]
