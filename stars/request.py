@@ -10,13 +10,14 @@ link = ''
 l2 = ['http://www.astronet.ru/cgi-bin/skyc.cgi?ut=', '&day=', '&month=', '&year=', '&longitude=', '&latitude=', '&height=90&m=5.0&colstars=1']
 
 answers = []
-questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год (полностью): ",
-             "Долгота градусы:('-' для вост.): ", "Широта градусы:('-' для южн.): "]  #, "Введите минуту: "
-
+questions1 = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год (полностью): ",
+             "Долгота градусы:('-' для вост.): ", "Широта градусы:('-' для южн.): "]
+questions = questions1[:]
 #Функция ввода даты и времени
 def generate_data(message):
 
-
+    global questions1 #без этого всё и не работало
+    global questions
     if message == 'Всё автоматически':
         cur_date = datetime.datetime.now()  #Берём текущее время (Питер, прувет!)
         hour = cur_date.hour  #Выделяем текущий час
@@ -36,7 +37,6 @@ def generate_data(message):
         return "Данные введены. Обрабатываю, подождите "
         # bot.send_chat_action(message.from_user.id, 'find_location')
         # bot.send_message(message.from_user.id, loc)
-
 
     if message == "Всё вручную":
         # questions = ["Введите час: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: ",
@@ -71,6 +71,8 @@ def generate_data(message):
         # bot.send_chat_action(message.from_user.id, 'upload_photo')  #По задумке должен загрузить фотку, но падает
         # bot.send_photo(message.from_user.id, img)
         # img.close()
+        questions = questions1[:]
+        answers.clear()
         return 'Готово, перейдите по ссылке' \
                ' ' + link
     else:
@@ -78,37 +80,35 @@ def generate_data(message):
         q = questions[0]
         questions.remove(q)
         return q
-
-
-        # hour = message"Введите час: "))
-        # minute = int(input("Введите минуту: "))
-        # day = int(input("Введите день: "))
-        # month = int(input("Введите месяц: "))
-        # year = int(input("Введите год: "))
-
-        #Думаю, пока можно не реализовывать полуавтоматический ввод
-    if message == 'Время вручную, координаты автоматически':
-        question = ["Введите часик: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: "]
-        q = question[0]
-        question.remove(q)
-        return q
-        answers.append(message)
-        return answers
-
-
-#def generate_data_auto(message):
-
-#def generate_data_half(message):
-
-    # else:
-    #     return "Ничего не понял, попробуйте ещё раз, введите команду /go"
-    # hour -= 3 #Конвертируем часы в UT
-    # if hour < 0:
-    #     hour += 24 #Чтобы не было отрицательного часа
-    # minute /= 0.6  #Конвертируем минуты
-    # time = "ut=" + str(hour) + '.' + str(int(minute))
-    # date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
-    # link = time + date
-    # print(link)
-    #print(answers)
-    return "Данные введены нажмите для продолжения ввода "
+#         hour = message"Введите час: "))
+#         minute = int(input("Введите минуту: "))
+#         day = int(input("Введите день: "))
+#         month = int(input("Введите месяц: "))
+#         year = int(input("Введите год: "))
+#
+#         Думаю, пока можно не реализовывать полуавтоматический ввод
+#     if message == 'Время вручную, координаты автоматически':
+#         question = ["Введите часик: ", "Введите минуту: ", "Введите день: ", "Введите месяц: ", "Введите год: "]
+#         q = question[0]
+#         question.remove(q)
+#         return q
+#         answers.append(message)
+#         return answers
+#
+#
+# def generate_data_auto(message):
+#
+# def generate_data_half(message):
+#
+#     else:
+#         return "Ничего не понял, попробуйте ещё раз, введите команду /go"
+#     hour -= 3 #Конвертируем часы в UT
+#     if hour < 0:
+#         hour += 24 #Чтобы не было отрицательного часа
+#     minute /= 0.6  #Конвертируем минуты
+#     time = "ut=" + str(hour) + '.' + str(int(minute))
+#     date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
+#     link = time + date
+#     print(link)
+#     print(answers)
+#     return "Данные введены нажмите для продолжения ввода "
