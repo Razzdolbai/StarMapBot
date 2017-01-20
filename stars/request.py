@@ -32,8 +32,8 @@ def generate_data(message):
         hour -= 3  #Конвертируем часы в UT
         if hour < 0:
             hour += 24  #Чтобы не было отрицательного часа
-        minute /= 0.6  #Конвертируем минуты, чуть-чуть не так работает, если минуты меньше 10
-        time = "ut=" + str(hour) + '.' + str(int(minute))
+        minute /= 60  #Конвертируем минуты
+        time = "ut=" + str(round(hour + minute, 3))
         date = "&day=" + str(day) + "&month=" + str(month) + "&year=" + str(year)
         link = time + date
         print(link)
