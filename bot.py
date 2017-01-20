@@ -52,10 +52,20 @@ def generate_markup(message):
 
 #Отвечает на все сообщения по умолчанию
 @bot.message_handler(func=lambda m: True, content_types=['location', 'text'])
+# def echo_all(message):
+#     #print (message.location.longitude) #Вот это и то, что ниже принтит координаты. не знаю, как их передать программе
+#     #print (message.location.latitude)
+#     bot.reply_to(message, generate_data(message.text))
 def echo_all(message):
-    print (message.location.longitude) #Вот это и то, что ниже принтит координаты. не знаю, как их передать программе
-    print (message.location.latitude)
-    bot.reply_to(message, generate_data(message.text))
+    from stars.request1 import location_auto, location_by_heand
+
+    if message.location:
+        bot.send_message(message.from_user.id, location_auto(message))
+    else: #message.text == 'Всё вручную':
+        #bot.reply_to(message, location_by_heand(message.text))
+        bot.send_message(message.from_user.id, location_by_heand(message.text))
+    #else:
+       # bot.send_message(message.from_user.id, 'Я не разобрал запрос, вот клавиатура еще раз', reply_markup=keyboard(message))
 
 #Запуск бота
 bot.polling()
