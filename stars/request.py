@@ -18,7 +18,10 @@ def generate_data(message):
 
     global questions1 #без этого всё и не работало
     global questions
-    if message == 'Всё автоматически':
+    if message == "Всё автоматически":
+        x = message.location.longitude
+        y = message.location.latitude
+        print (x, y)
         cur_date = datetime.datetime.now()  #Берём текущее время (Питер, прувет!)
         hour = cur_date.hour  #Выделяем текущий час
         minute = cur_date.minute  #текущую минуту
@@ -53,14 +56,15 @@ def generate_data(message):
         if hrs < 0:
             hrs += 24  #Чтобы не было отрицательного часа
         mins = int(answers[1])
-        mins /= 0.6 #Чуть-чуть не так работает, если минуты меньше 10
+        mins /= 60
+        ut = str(round(hrs + mins, 3))  # Теперь должно правильно работать
+        #Тут должен быть конвертер. Но его пока не будет.
         #удаляем первые два элемента списка
         i = 0
         while i < 2:
             del answers [0]
             i += 1
         #вставляем вперёд списка новое значение
-        ut = str(hrs) + '.' + str(int(mins))
         answers.insert(0, ut)
         l = [x + y for x,y in zip(l2,answers)]  #Объединяет списки
         link = ''.join(l)  #Преобразовывает список в строку
@@ -71,8 +75,8 @@ def generate_data(message):
         # bot.send_chat_action(message.from_user.id, 'upload_photo')  #По задумке должен загрузить фотку, но падает
         # bot.send_photo(message.from_user.id, img)
         # img.close()
-        questions = questions1[:]
-        answers.clear()
+        questions = questions1[:] # копируем список для того, чтобы всё начать заново
+        answers.clear() # очищаем список ответов
         return 'Готово, перейдите по ссылке' \
                ' ' + link
     else:
